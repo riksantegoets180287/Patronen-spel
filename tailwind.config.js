@@ -11,6 +11,7 @@ export default {
         'summa-aqua': '#00C8C8',
         'summa-blue': '#0064D2',
         'summa-green': '#00AA5B',
+        'summa-red': '#E31C23',
         'summa-white': '#FFFFFF',
         'summa-light': '#F4F4F4',
       },
