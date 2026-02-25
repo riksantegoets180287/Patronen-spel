@@ -11,7 +11,14 @@ const HelpOverlay: React.FC<HelpOverlayProps> = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl">
+      <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl relative">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center bg-gray-200 hover:bg-summa-red text-gray-700 hover:text-white rounded-full font-bold transition"
+          aria-label="Sluit hulp"
+        >
+          ×
+        </button>
         <h2 className="text-2xl font-bold text-summa-red mb-4">Hulp nodig?</h2>
         <div className="space-y-4 text-lg text-summa-dark">
           <p>• Een patroon is iets dat terug komt.</p>
