@@ -23,7 +23,8 @@ const Game: React.FC<GameProps> = ({ user, levels, onFinish, onLogout }) => {
   const [highlightIdx, setHighlightIdx] = useState<number | null>(null);
   const [fillProgress, setFillProgress] = useState<string[]>([]);
   const [showImprovement, setShowImprovement] = useState(false);
-  
+  const [showMilestonePopup, setShowMilestonePopup] = useState(false);
+
   const cheatCounter = useRef(0);
   const level = levels[currentLevelIdx];
 
@@ -61,7 +62,9 @@ const Game: React.FC<GameProps> = ({ user, levels, onFinish, onLogout }) => {
 
   const nextLevel = useCallback(() => {
     playSound('click');
-    if (currentLevelIdx < levels.length - 1) {
+    if (currentLevelIdx === 19) {
+      setShowMilestonePopup(true);
+    } else if (currentLevelIdx < levels.length - 1) {
       setCurrentLevelIdx(prev => prev + 1);
       setAttempts(1);
     } else {
@@ -243,17 +246,51 @@ const Game: React.FC<GameProps> = ({ user, levels, onFinish, onLogout }) => {
             POGING: <span className="text-summa-blue">{attempts}</span>
           </div>
           <div className="bg-summa-indigo text-white px-4 py-1.5 rounded-full shadow-md text-xs font-bold">
-            LEVEL {currentLevelIdx + 1} / 20
+            LEVEL {currentLevelIdx + 1} / {levels.length}
           </div>
         </div>
       </main>
 
       <HelpOverlay isOpen={helpOpen} onClose={() => { playSound('click'); setHelpOpen(false); }} />
-      
+
+      {showMilestonePopup && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl p-6 md:p-8 max-w-lg w-full shadow-2xl animate-bounce-in">
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-summa-indigo mb-4 text-center">Goed gedaan!</h2>
+            <p className="text-base md:text-lg text-gray-700 mb-6 text-center leading-relaxed">
+              Je hebt een voldoende voor dit onderdeel. Je weet voldoende over patronen.<br /><br />
+              <span className="font-bold text-summa-fuchsia">Wil je doorgaan naar een hoger level? Speel dan tot level 35</span>
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <button
+                onClick={() => {
+                  playSound('click');
+                  setShowMilestonePopup(false);
+                  setCurrentLevelIdx(20);
+                  setAttempts(1);
+                }}
+                className="px-6 py-3 bg-summa-indigo text-white text-lg font-bold rounded-xl shadow-xl hover:bg-opacity-90 transition transform hover:scale-105 active:scale-95"
+              >
+                Ja, ik ga door
+              </button>
+              <button
+                onClick={() => {
+                  playSound('click');
+                  onFinish(results);
+                }}
+                className="px-6 py-3 bg-gray-400 text-white text-lg font-bold rounded-xl shadow-xl hover:bg-gray-500 transition transform hover:scale-105 active:scale-95"
+              >
+                Nee, ik wil stoppen
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <style>{`
         @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-in { animation: fade-in 0.4s ease-out; }
-        
+
         @keyframes bounce-in {
           0% { transform: scale(0.95); opacity: 0; }
           70% { transform: scale(1.02); }

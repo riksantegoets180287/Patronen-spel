@@ -13,7 +13,6 @@ export interface Level {
   options: string[];
   correct: any;
   ruleLabel?: string;
-  countTarget?: string;
 }
 
 export interface User {
