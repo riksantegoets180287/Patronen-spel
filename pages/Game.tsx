@@ -141,9 +141,9 @@ const Game: React.FC<GameProps> = ({ user, levels, onFinish, onLogout }) => {
           </div>
         </div>
         <div className="flex gap-2">
-          <button 
+          <button
             onClick={() => { playSound('click'); setHelpOpen(true); }}
-            className="bg-white/10 text-white border border-white/20 px-3 py-1 rounded-lg font-bold hover:bg-white/20 transition text-sm"
+            className="bg-white text-summa-indigo px-3 py-1 rounded-lg font-bold hover:bg-gray-100 transition text-sm shadow-md"
           >
             Hulp
           </button>
